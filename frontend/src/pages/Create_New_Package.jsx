@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { FaUtensils, FaGlassCheers, FaMusic, FaCamera, FaGifts } from 'react-icons/fa'; // Import icons from React Icons
+import { FaUtensils, FaGlassCheers, FaMusic, FaCamera, FaGifts, FaCheckCircle } from 'react-icons/fa'; // Import icons from React Icons
 import DatePicker from 'react-datepicker'; // Import DatePicker
 import 'react-datepicker/dist/react-datepicker.css'; // Import DatePicker CSS
 
@@ -9,6 +9,8 @@ const Create_New_Package = () => {
   const [management_name, setManagementName] = useState('');
   const [price, setPrice] = useState('');
   const [venueDetails, setVenueDetails] = useState('');
+  const [successMessage, setSuccessMessage] = useState(false); // New state for success message
+  const [newCategory, setNewCategory] = useState(''); // New state for the category input
 
   const [formData, setFormData] = useState({
     decoration: '',
@@ -36,6 +38,7 @@ const Create_New_Package = () => {
       photography: ''
     });
     setAvailability({ from: null, to: null });
+    setNewCategory(''); // Reset the category input
   };
 
   const handleChange = (e) => {
@@ -52,7 +55,8 @@ const Create_New_Package = () => {
       price,
       ...formData,
       venueDetails,
-      availability
+      availability,
+      category: newCategory // Include new category in the submission
     };
 
     console.log('Submitting package data:', packageData); // Add this log to inspect the data being sent
@@ -64,6 +68,10 @@ const Create_New_Package = () => {
       // Close the form and reset fields on successful submission
       resetForm();
       setIsFormOpen(false);  // Close the form after submission
+      
+      // Show success message and hide it after 3 seconds
+      setSuccessMessage(true);
+      setTimeout(() => setSuccessMessage(false), 2000); // Hide after 2 seconds
     } catch (error) {
       console.error('Error creating package:', error);
     }
@@ -88,6 +96,14 @@ const Create_New_Package = () => {
       >
         <span className="text-2xl font-bold mr-2">+</span> Create Package
       </button>
+
+      {/* Success Message */}
+      {successMessage && (
+        <div className="flex items-center justify-center mt-4 text-green-600 animate-bounce">
+          <FaCheckCircle size={40} />
+          <span className="ml-2 text-lg font-bold">Package Created Successfully!</span>
+        </div>
+      )}
 
       {isFormOpen && (
         <form className="mt-6 p-6 bg-white shadow-lg rounded-lg" onSubmit={handleSubmit}>
@@ -133,6 +149,18 @@ const Create_New_Package = () => {
               </select>
             </div>
           ))}
+
+          {/* New Category Input */}
+          <div className="mb-4">
+            <label className="block text-gray-700 font-bold mb-2">Category</label>
+            <input
+              type="text"
+              value={newCategory}
+              onChange={(e) => setNewCategory(e.target.value)}  // Handle category input
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter category name"
+            />
+          </div>
 
           {/* Availability Date Picker */}
           <div className="mb-4">

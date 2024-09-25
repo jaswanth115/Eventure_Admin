@@ -51,6 +51,10 @@ const packageSchema = new mongoose.Schema(
         required: true,
       },
     },
+    category: {
+      type: String,
+      required: true, 
+    },
   },
   { timestamps: true }
 );

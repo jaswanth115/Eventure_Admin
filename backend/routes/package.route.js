@@ -6,7 +6,7 @@ const router = express.Router();
 // POST route to handle package creation
 router.post('/create-package', async (req, res) => {
   try {
-    const { management_name, price, decoration, food, drinks, entertainment, photography, venueDetails, availability } = req.body;
+    const { management_name, price, decoration, food, drinks, entertainment, photography, venueDetails, availability, category } = req.body;
 
     if (!availability || !availability.from || !availability.to) {
       return res.status(400).json({ success: false, message: 'Availability "from" and "to" dates are required' });
@@ -28,6 +28,7 @@ router.post('/create-package', async (req, res) => {
         from: new Date(availability.from),
         to: new Date(availability.to),
       },
+      category,
     });
 
     // Save to the database
