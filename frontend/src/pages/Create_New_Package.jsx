@@ -86,7 +86,7 @@ const Create_New_Package = () => {
   ];
 
   return (
-    <div className="p-6 bg-gray-100 rounded-lg shadow-lg w-4/5 mx-auto">
+    <div className="p-6 bg-gray-100 rounded-lg shadow-lg w-4/5 mx-auto mt-20">
       <button
         onClick={() => {
           resetForm();  // Reset the form when toggling open

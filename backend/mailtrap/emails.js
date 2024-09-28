@@ -3,84 +3,136 @@ import {
 	PASSWORD_RESET_SUCCESS_TEMPLATE,
 	VERIFICATION_EMAIL_TEMPLATE,
 } from "./emailTemplates.js";
-import { mailtrapClient, sender } from "./mailtrap.config.js";
+import nodemailer from 'nodemailer'; // Use import instead of require
 
 export const sendVerificationEmail = async (email, verificationToken) => {
-	const recipient = [{ email }];
+	const recipient = email.toString();
+	var transporter = nodemailer.createTransport(
+    {
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+            user: 'jaswanthreddy.2019@gmail.com',
+            pass: 'mmmvvzhzhydhwiow'
+        }
+    }
+	);
 
-	try {
-		const response = await mailtrapClient.send({
-			from: sender,
-			to: recipient,
-			subject: "Verify your email",
-			html: VERIFICATION_EMAIL_TEMPLATE.replace("{verificationCode}", verificationToken),
-			category: "Email Verification",
-		});
+	var options = {
+		from: 'jaswanthreddy.2019@gmail.com',
+		to: recipient,
+		subject: "Testing node emails",
+		text: verificationToken,
+	};
+	transporter.sendMail(
+		options, function (error, info) {
+			if (error) {
+				console.log(error)
+			}
+			else {
+				console.log("sent ")
+			}
 
-		console.log("Email sent successfully", response);
-	} catch (error) {
-		console.error(`Error sending verification`, error);
-
-		throw new Error(`Error sending verification email: ${error}`);
-	}
+		}
+	)
 };
 
 export const sendWelcomeEmail = async (email, name) => {
-	const recipient = [{ email }];
+	const recipient = email.toString();
+	var transporter = nodemailer.createTransport(
+    {
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+            user: 'jaswanthreddy.2019@gmail.com',
+            pass: 'mmmvvzhzhydhwiow'
+        }
+    }
+	);
 
-	try {
-		const response = await mailtrapClient.send({
-			from: sender,
-			to: recipient,
-			template_uuid: "e65925d1-a9d1-4a40-ae7c-d92b37d593df",
-			template_variables: {
-				company_info_name: "Auth Company",
-				name: name,
-			},
-		});
+	var options = {
+		from: 'jaswanthreddy.2019@gmail.com',
+		to: recipient,
+		subject: "Testing node emails",
+		text: "Welcome "+`${name}`,
+	};
+	transporter.sendMail(
+		options, function (error, info) {
+			if (error) {
+				console.log(error)
+			}
+			else {
+				console.log("sent ")
+			}
 
-		console.log("Welcome email sent successfully", response);
-	} catch (error) {
-		console.error(`Error sending welcome email`, error);
-
-		throw new Error(`Error sending welcome email: ${error}`);
-	}
+		}
+	)
 };
 
 export const sendPasswordResetEmail = async (email, resetURL) => {
-	const recipient = [{ email }];
+	const recipient = email.toString();
+	var transporter = nodemailer.createTransport(
+    {
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+            user: 'jaswanthreddy.2019@gmail.com',
+            pass: 'mmmvvzhzhydhwiow'
+        }
+    }
+	);
 
-	try {
-		const response = await mailtrapClient.send({
-			from: sender,
-			to: recipient,
-			subject: "Reset your password",
-			html: PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetURL),
-			category: "Password Reset",
-		});
-	} catch (error) {
-		console.error(`Error sending password reset email`, error);
+	var options = {
+		from: 'jaswanthreddy.2019@gmail.com',
+		to: recipient,
+		subject: "Testing node emails",
+		text: "Reset password using "+`${resetURL}`,
+	};
+	transporter.sendMail(
+		options, function (error, info) {
+			if (error) {
+				console.log(error)
+			}
+			else {
+				console.log("sent ")
+			}
 
-		throw new Error(`Error sending password reset email: ${error}`);
-	}
+		}
+	)
 };
 
 export const sendResetSuccessEmail = async (email) => {
-	const recipient = [{ email }];
+	const recipient = email.toString();
+	var transporter = nodemailer.createTransport(
+    {
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+            user: 'jaswanthreddy.2019@gmail.com',
+            pass: 'mmmvvzhzhydhwiow'
+        }
+    }
+	);
 
-	try {
-		const response = await mailtrapClient.send({
-			from: sender,
-			to: recipient,
-			subject: "Password Reset Successful",
-			html: PASSWORD_RESET_SUCCESS_TEMPLATE,
-			category: "Password Reset",
-		});
+	var options = {
+		from: 'jaswanthreddy.2019@gmail.com',
+		to: recipient,
+		subject: "Testing node emails",
+		text: "password changed successfull for "+`${email}`,
+	};
+	transporter.sendMail(
+		options, function (error, info) {
+			if (error) {
+				console.log(error)
+			}
+			else {
+				console.log("sent ")
+			}
 
-		console.log("Password reset email sent successfully", response);
-	} catch (error) {
-		console.error(`Error sending password reset success email`, error);
-
-		throw new Error(`Error sending password reset success email: ${error}`);
-	}
+		}
+	)
 };
