@@ -10,13 +10,13 @@ const packageSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    categories: {
+    services: {
       decoration: {
         type: String,
         enum: ['yes', 'no'],
         required: true,
       },
-      food: {
+      catering: {
         type: String,
         enum: ['yes', 'no'],
         required: true,

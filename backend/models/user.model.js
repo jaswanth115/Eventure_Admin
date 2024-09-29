@@ -15,6 +15,11 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		role: {  // Add this field
+			type: String,
+			enum: ['Admin', 'Data Entry', 'User'], // Define allowed roles
+			default: 'User', // Default role if needed
+		},
 		lastLogin: {
 			type: Date,
 			default: Date.now,

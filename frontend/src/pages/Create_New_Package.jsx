@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { motion } from "framer-motion";
 import { FaUtensils, FaGlassCheers, FaMusic, FaCamera, FaGifts, FaCheckCircle } from 'react-icons/fa'; // Import icons from React Icons
 import DatePicker from 'react-datepicker'; // Import DatePicker
 import 'react-datepicker/dist/react-datepicker.css'; // Import DatePicker CSS
@@ -14,7 +15,7 @@ const Create_New_Package = () => {
 
   const [formData, setFormData] = useState({
     decoration: '',
-    food: '',
+    catering: '',
     drinks: '',
     entertainment: '',
     photography: ''
@@ -32,7 +33,7 @@ const Create_New_Package = () => {
     setVenueDetails('');
     setFormData({
       decoration: '',
-      food: '',
+      catering: '',
       drinks: '',
       entertainment: '',
       photography: ''
@@ -79,14 +80,20 @@ const Create_New_Package = () => {
 
   const categoryOptions = [
     { label: 'Decoration', icon: <FaGifts />, name: 'decoration' },
-    { label: 'Food', icon: <FaUtensils />, name: 'food' },
+    { label: 'Catering', icon: <FaUtensils />, name: 'catering' },
     { label: 'Drinks', icon: <FaGlassCheers />, name: 'drinks' },
     { label: 'Entertainment', icon: <FaMusic />, name: 'entertainment' },
     { label: 'Photography & Videography', icon: <FaCamera />, name: 'photography' },
   ];
 
   return (
-    <div className="p-6 bg-gray-100 rounded-lg shadow-lg w-4/5 mx-auto mt-20">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.5 }}
+      className="p-6 bg-gray-100 rounded-lg shadow-lg w-4/5 mx-auto mt-20"
+    >
       <button
         onClick={() => {
           resetForm();  // Reset the form when toggling open
@@ -209,7 +216,7 @@ const Create_New_Package = () => {
           </button>
         </form>
       )}
-    </div>
+    </motion.div>
   );
 };
 
