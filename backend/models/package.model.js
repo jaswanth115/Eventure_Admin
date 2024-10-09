@@ -65,7 +65,7 @@ const packageSchema = new mongoose.Schema(
       capacity: {
         type: String,
         required: true,
-      }
+      },
     },
     availability: {
       from: {
@@ -79,7 +79,10 @@ const packageSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      required: true, 
+      required: true,
+    },
+    images: {
+      type: [String], // Store multiple image paths
     },
   },
   { timestamps: true }

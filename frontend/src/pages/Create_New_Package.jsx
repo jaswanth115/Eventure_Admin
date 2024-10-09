@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { motion } from "framer-motion";
-import { FaUtensils, FaGlassCheers, FaMusic, FaCamera, FaGifts, FaCheckCircle } from 'react-icons/fa'; // Import icons from React Icons
-import DatePicker from 'react-datepicker'; // Import DatePicker
-import 'react-datepicker/dist/react-datepicker.css'; // Import DatePicker CSS
+import { FaUtensils, FaGlassCheers, FaMusic, FaCamera, FaGifts, FaCheckCircle } from 'react-icons/fa';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const Create_New_Package = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [management_name, setManagementName] = useState('');
   const [price, setPrice] = useState('');
-  const [successMessage, setSuccessMessage] = useState(false); // New state for success message
-  const [newCategory, setNewCategory] = useState(''); // New state for the category input
+  const [successMessage, setSuccessMessage] = useState(false);
+  const [newCategory, setNewCategory] = useState('');
+  const [images, setImages] = useState([]);
 
   const [formData, setFormData] = useState({
     decoration: '',
@@ -20,7 +21,6 @@ const Create_New_Package = () => {
     photography: ''
   });
 
-  // Venue Details fields
   const [venueDetails, setVenueDetails] = useState({
     venueName: '',
     capacity: '',
@@ -36,7 +36,6 @@ const Create_New_Package = () => {
     to: null
   });
 
-  // Function to reset the form fields
   const resetForm = () => {
     setManagementName('');
     setPrice('');
@@ -57,7 +56,8 @@ const Create_New_Package = () => {
       country: ''
     });
     setAvailability({ from: null, to: null });
-    setNewCategory(''); // Reset the category input
+    setNewCategory('');
+    setImages([]); // Reset images
   };
 
   const handleChange = (e) => {
@@ -74,50 +74,57 @@ const Create_New_Package = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const packageData = {
-    management_name,
-    price,
-    services: {
-      decoration: formData.decoration,
-      catering: formData.catering,
-      drinks: formData.drinks,
-      entertainment: formData.entertainment,
-      photography: formData.photography,
-    },
-    venueDetails: {
-      venueName: venueDetails.venueName,
-      capacity: venueDetails.capacity,
-      streetAddress: venueDetails.streetAddress,
-      city: venueDetails.city,
-      state: venueDetails.state,
-      postalCode: venueDetails.postalCode,
-      country: venueDetails.country,
-    },
-    availability: {
-      from: new Date(availability.from), // Ensure these are valid date objects
-      to: new Date(availability.to),
-    },
-    category: newCategory, // Include new category in the submission
+  // Handle Image Selection
+  const handleImageChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    const imageFiles = selectedFiles.filter(file => file.type.startsWith('image/'));
+
+    // Update images state with new selected files
+    setImages((prevImages) => [...prevImages, ...imageFiles]);
   };
 
-  console.log('Submitting package data:', packageData); // Add this log to inspect the data being sent
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
-    const response = await axios.post('http://localhost:5000/api/packages/create-package', packageData);
-    console.log('Package created successfully:', response.data);
+    const packageData = new FormData();
+    packageData.append('management_name', management_name);
+    packageData.append('price', price);
+    packageData.append('category', newCategory);
 
-    // Close the form and reset fields on successful submission
-    resetForm();
-    setIsFormOpen(false);  // Close the form after submission
-    
-    // Show success message and hide it after 3 seconds
-    setSuccessMessage(true);
-    setTimeout(() => setSuccessMessage(false), 2000); // Hide after 2 seconds
-  } catch (error) {
-    console.error('Error creating package:', error);
-  }
+    // Add services
+    Object.keys(formData).forEach((key) => {
+      packageData.append(`services[${key}]`, formData[key]);
+    });
+
+    // Add venue details
+    Object.keys(venueDetails).forEach((key) => {
+      packageData.append(`venueDetails[${key}]`, venueDetails[key]);
+    });
+
+    // Add availability
+    packageData.append('availability[from]', availability.from);
+    packageData.append('availability[to]', availability.to);
+
+    // Append images to FormData
+    images.forEach((image) => {
+      packageData.append('images', image);
+    });
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/packages/create-package', packageData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log('Package created successfully:', response.data);
+      resetForm();
+      setIsFormOpen(false);
+      setSuccessMessage(true);
+      setTimeout(() => setSuccessMessage(false), 2000);
+    } catch (error) {
+      console.error('Error creating package:', error);
+    }
   };
 
   const categoryOptions = [
@@ -138,7 +145,7 @@ const Create_New_Package = () => {
     >
       <button
         onClick={() => {
-          resetForm();  // Reset the form when toggling open
+          resetForm();
           setIsFormOpen(!isFormOpen);
         }}
         className="flex items-center bg-green-500 text-white py-2 px-4 rounded-full hover:bg-green-600 transition duration-300 ease-in-out"
@@ -146,7 +153,6 @@ const Create_New_Package = () => {
         <span className="text-2xl font-bold mr-2">+</span> Create Package
       </button>
 
-      {/* Success Message */}
       {successMessage && (
         <div className="flex items-center justify-center mt-4 text-green-600 animate-bounce">
           <FaCheckCircle size={40} />
@@ -155,7 +161,7 @@ const Create_New_Package = () => {
       )}
 
       {isFormOpen && (
-        <form className="mt-6 p-6 bg-white shadow-lg rounded-lg" onSubmit={handleSubmit}>
+        <form className="mt-6 p-6 bg-white shadow-lg rounded-lg" onSubmit={handleSubmit} encType="multipart/form-data">
           <div className="mb-4">
             <label className="block text-gray-700 font-bold mb-2">Name of the Management</label>
             <input
@@ -296,7 +302,7 @@ const Create_New_Package = () => {
              <input
                type="text"
                value={newCategory}
-               onChange={(e) => setNewCategory(e.target.value)}  // Handle category input
+               onChange={(e) => setNewCategory(e.target.value)}
                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                placeholder="Enter category name"
              />
@@ -330,7 +336,36 @@ const Create_New_Package = () => {
             />
           </div>
 
-          
+          {/* Image Upload Section */}
+          <div className="mb-4">
+            <label className="block text-gray-700 font-bold mb-2">Upload Images</label>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleImageChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <p className="mt-2 text-gray-600">You can upload multiple images.</p>
+            {/* Display selected images */}
+            <div className="mt-2">
+              {images.map((image, index) => (
+                <div key={index} className="flex items-center justify-between border-b py-2">
+                  <span>{image.name}</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setImages(images.filter((_, i) => i !== index)); // Remove image on click
+                    }}
+                    className="text-red-500 hover:underline"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <button
             type="submit"
             className="w-full bg-green-500 text-white py-2 px-4 rounded-full hover:bg-green-600 transition duration-300 ease-in-out"

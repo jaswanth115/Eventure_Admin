@@ -1,19 +1,22 @@
 import express from 'express';
+import multer from 'multer';
 import { Package } from '../models/package.model.js';
 
 const router = express.Router();
+const upload = multer({ dest: 'uploads/' }); // Configure the destination for uploaded files
 
 // POST route to handle package creation
-router.post('/create-package', async (req, res) => {
+router.post('/create-package', upload.array('images'), async (req, res) => {
   try {
     const {
       management_name,
       price,
-      services,  // Extract the services object
+      services,
       venueDetails,
       availability,
       category
     } = req.body;
+
     const { decoration, catering, drinks, entertainment, photography } = services;
 
     // Validate availability
@@ -27,16 +30,19 @@ router.post('/create-package', async (req, res) => {
       return res.status(400).json({ success: false, message: 'All venue details are required' });
     }
 
+    // Collect image paths
+    const images = req.files.map(file => file.path); // Assuming multer saves to 'uploads/' folder
+
     // Create a new package
     const newPackage = new Package({
       management_name,
       price,
       services: {
-                 decoration,
-                 catering,
-                 drinks,
-                 entertainment,
-                 photography,
+        decoration,
+        catering,
+        drinks,
+        entertainment,
+        photography,
       },
       venueDetails: {
         venueName,
@@ -52,6 +58,7 @@ router.post('/create-package', async (req, res) => {
         to: new Date(availability.to),
       },
       category,
+      images, // Add images to the package
     });
 
     // Save to the database
@@ -59,7 +66,7 @@ router.post('/create-package', async (req, res) => {
 
     res.status(201).json({ success: true, message: 'Package created successfully!', package: newPackage });
   } catch (error) {
-    console.error('Error creating package:', error); // Log the error for debugging
+    console.error('Error creating package:', error);
     res.status(400).json({ success: false, message: error.message });
   }
 });
