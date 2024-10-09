@@ -9,7 +9,6 @@ const Create_New_Package = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [management_name, setManagementName] = useState('');
   const [price, setPrice] = useState('');
-  const [venueDetails, setVenueDetails] = useState('');
   const [successMessage, setSuccessMessage] = useState(false); // New state for success message
   const [newCategory, setNewCategory] = useState(''); // New state for the category input
 
@@ -21,6 +20,17 @@ const Create_New_Package = () => {
     photography: ''
   });
 
+  // Venue Details fields
+  const [venueDetails, setVenueDetails] = useState({
+    venueName: '',
+    capacity: '',
+    streetAddress: '',
+    city: '',
+    state: '',
+    postalCode: '',
+    country: ''
+  });
+
   const [availability, setAvailability] = useState({
     from: null,
     to: null
@@ -30,13 +40,21 @@ const Create_New_Package = () => {
   const resetForm = () => {
     setManagementName('');
     setPrice('');
-    setVenueDetails('');
     setFormData({
       decoration: '',
       catering: '',
       drinks: '',
       entertainment: '',
       photography: ''
+    });
+    setVenueDetails({
+      venueName: '',
+      capacity: '',
+      streetAddress: '',
+      city: '',
+      state: '',
+      postalCode: '',
+      country: ''
     });
     setAvailability({ from: null, to: null });
     setNewCategory(''); // Reset the category input
@@ -49,33 +67,57 @@ const Create_New_Package = () => {
     });
   };
 
+  const handleVenueChange = (e) => {
+    setVenueDetails({
+      ...venueDetails,
+      [e.target.name]: e.target.value
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const packageData = {
-      management_name,
-      price,
-      ...formData,
-      venueDetails,
-      availability,
-      category: newCategory // Include new category in the submission
-    };
+    management_name,
+    price,
+    services: {
+      decoration: formData.decoration,
+      catering: formData.catering,
+      drinks: formData.drinks,
+      entertainment: formData.entertainment,
+      photography: formData.photography,
+    },
+    venueDetails: {
+      venueName: venueDetails.venueName,
+      capacity: venueDetails.capacity,
+      streetAddress: venueDetails.streetAddress,
+      city: venueDetails.city,
+      state: venueDetails.state,
+      postalCode: venueDetails.postalCode,
+      country: venueDetails.country,
+    },
+    availability: {
+      from: new Date(availability.from), // Ensure these are valid date objects
+      to: new Date(availability.to),
+    },
+    category: newCategory, // Include new category in the submission
+  };
 
-    console.log('Submitting package data:', packageData); // Add this log to inspect the data being sent
+  console.log('Submitting package data:', packageData); // Add this log to inspect the data being sent
+
+  try {
+    const response = await axios.post('http://localhost:5000/api/packages/create-package', packageData);
+    console.log('Package created successfully:', response.data);
+
+    // Close the form and reset fields on successful submission
+    resetForm();
+    setIsFormOpen(false);  // Close the form after submission
     
-    try {
-      const response = await axios.post('http://localhost:5000/api/packages/create-package', packageData);
-      console.log('Package created successfully:', response.data);
-
-      // Close the form and reset fields on successful submission
-      resetForm();
-      setIsFormOpen(false);  // Close the form after submission
-      
-      // Show success message and hide it after 3 seconds
-      setSuccessMessage(true);
-      setTimeout(() => setSuccessMessage(false), 2000); // Hide after 2 seconds
-    } catch (error) {
-      console.error('Error creating package:', error);
-    }
+    // Show success message and hide it after 3 seconds
+    setSuccessMessage(true);
+    setTimeout(() => setSuccessMessage(false), 2000); // Hide after 2 seconds
+  } catch (error) {
+    console.error('Error creating package:', error);
+  }
   };
 
   const categoryOptions = [
@@ -83,7 +125,7 @@ const Create_New_Package = () => {
     { label: 'Catering', icon: <FaUtensils />, name: 'catering' },
     { label: 'Drinks', icon: <FaGlassCheers />, name: 'drinks' },
     { label: 'Entertainment', icon: <FaMusic />, name: 'entertainment' },
-    { label: 'Photography & Videography', icon: <FaCamera />, name: 'photography' },
+    { label: 'Photography & Videography', icon: <FaCamera />, name: 'photography' }
   ];
 
   return (
@@ -157,17 +199,108 @@ const Create_New_Package = () => {
             </div>
           ))}
 
-          {/* New Category Input */}
+          {/* Venue Details Section */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-bold mb-2">Category</label>
-            <input
-              type="text"
-              value={newCategory}
-              onChange={(e) => setNewCategory(e.target.value)}  // Handle category input
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter category name"
-            />
+            <h3 className="text-lg font-bold text-gray-700 mb-2">Venue Details</h3>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-bold mb-2">Venue Name</label>
+              <input
+                type="text"
+                name="venueName"
+                value={venueDetails.venueName}
+                onChange={handleVenueChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter Venue Name"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-gray-700 font-bold mb-2">Street Address</label>
+              <input
+                type="text"
+                name="streetAddress"
+                value={venueDetails.streetAddress}
+                onChange={handleVenueChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter Street Address"
+              />
+            </div>
+
+            <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-gray-700 font-bold mb-2">City</label>
+                <input
+                  type="text"
+                  name="city"
+                  value={venueDetails.city}
+                  onChange={handleVenueChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter City"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-700 font-bold mb-2">State</label>
+                <input
+                  type="text"
+                  name="state"
+                  value={venueDetails.state}
+                  onChange={handleVenueChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter State"
+                />
+              </div>
+            </div>
+
+            <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-gray-700 font-bold mb-2">Postal Code</label>
+                <input
+                  type="text"
+                  name="postalCode"
+                  value={venueDetails.postalCode}
+                  onChange={handleVenueChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter Postal Code"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-700 font-bold mb-2">Country</label>
+                <input
+                  type="text"
+                  name="country"
+                  value={venueDetails.country}
+                  onChange={handleVenueChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter Country"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-700 font-bold mb-2">Capacity</label>
+                <input
+                  type="text"
+                  name="capacity"
+                  value={venueDetails.capacity}
+                  onChange={handleVenueChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter Max Capacity"
+                />
+              </div>
+            </div>
           </div>
+
+          <div className="mb-4">
+             <label className="block text-gray-700 font-bold mb-2">Category</label>
+             <input
+               type="text"
+               value={newCategory}
+               onChange={(e) => setNewCategory(e.target.value)}  // Handle category input
+               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+               placeholder="Enter category name"
+             />
+           </div>
 
           {/* Availability Date Picker */}
           <div className="mb-4">
@@ -197,17 +330,7 @@ const Create_New_Package = () => {
             />
           </div>
 
-          <div className="mb-4">
-            <label className="block text-gray-700 font-bold mb-2">Venue Details</label>
-            <textarea
-              value={venueDetails}
-              onChange={(e) => setVenueDetails(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              rows="4"
-              placeholder="Enter venue details here..."
-            />
-          </div>
-
+          
           <button
             type="submit"
             className="w-full bg-green-500 text-white py-2 px-4 rounded-full hover:bg-green-600 transition duration-300 ease-in-out"
