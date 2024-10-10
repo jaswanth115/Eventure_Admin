@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import FloatingShape from "./components/FloatingShape";
+// import FloatingShape from "./components/FloatingShape";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import EmailVerificationPage from "./pages/EmailVerificationPage";
@@ -13,6 +13,8 @@ import { useEffect } from "react";
 import Create_New_Package from "./pages/Create_New_Package";
 import Header from './components/Header';
 import AssignRoles from "./pages/AssignRoles";
+import AdminOrders from "./pages/AdminOrders";
+import MyBookings from "./pages/MyBookings";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { isAuthenticated, user } = useAuthStore();
@@ -58,9 +60,9 @@ function App() {
       from-white-700 via-yellow-200 to-white flex items-center justify-center relative overflow-hidden'
     >
       {/* Floating shapes */}
-      <FloatingShape color='bg-red-500' size='w-64 h-64' top='-5%' left='10%' delay={0} />
+      {/* <FloatingShape color='bg-red-500' size='w-64 h-64' top='-5%' left='10%' delay={0} />
       <FloatingShape color='bg-yellow-500' size='w-48 h-48' top='70%' left='80%' delay={5} />
-      <FloatingShape color='bg-lime-500' size='w-32 h-32' top='40%' left='-10%' delay={2} />
+      <FloatingShape color='bg-lime-500' size='w-32 h-32' top='40%' left='-10%' delay={2} /> */}
 
       {isAuthenticated && user?.isVerified && <Header />}
 
@@ -86,6 +88,22 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={['Admin']}>
               <AssignRoles />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/orders'
+          element={
+            <ProtectedRoute allowedRoles={['Admin']}>
+              <AdminOrders />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/my_bookings'
+          element={
+            <ProtectedRoute allowedRoles={['User']}>
+              <MyBookings />
             </ProtectedRoute>
           }
         />
