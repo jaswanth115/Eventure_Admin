@@ -1,5 +1,6 @@
 import express from 'express';
 import { User } from '../models/user.model.js'; // Adjust the path to your user model
+import { Package } from '../models/package.model.js';
 
 const router = express.Router();
 
@@ -61,6 +62,5 @@ router.get('/just-users', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
-
 
 export default router;

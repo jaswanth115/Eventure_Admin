@@ -141,7 +141,7 @@ const Create_New_Package = () => {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.5 }}
-      className="p-6 bg-gray-100 rounded-lg shadow-lg w-4/5 mx-auto mt-20"
+      className="p-6 bg-gray-100 rounded-lg shadow-lg w-4/5 mx-auto "
     >
       <button
         onClick={() => {

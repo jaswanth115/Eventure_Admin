@@ -71,4 +71,15 @@ router.post('/create-package', upload.array('images'), async (req, res) => {
   }
 });
 
+// GET route to fetch all packages
+router.get('/', async (req, res) => {
+  try {
+    const packages = await Package.find(); // Fetch all packages from the database
+    res.status(200).json(packages);
+  } catch (error) {
+    console.error('Error fetching packages:', error); // More detailed error logging
+    res.status(500).json({ message: error.message });
+  }
+});
+
 export default router;

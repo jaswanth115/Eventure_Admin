@@ -8,18 +8,18 @@ const Header = () => {
   const handleLogout = () => {
     logout();
   };
-  const location = useLocation();  // Get the current route
+  const location = useLocation(); // Get the current route
 
   return (
-    <header className="fixed top-0 left-0 w-full bg-white p-4 sm:p-5 md:p-6 shadow-sm z-10">
-      <div className="flex justify-between items-center max-w-screen-xl mx-auto w-full px-4 sm:px-6">
+    <header className="fixed top-0 left-0 w-full bg-white p-2 sm:p-4 md:p-5 shadow-sm z-10">
+      <div className="flex flex-col sm:flex-row justify-between items-center max-w-screen-xl mx-auto w-full px-4 sm:px-6">
         {/* Left side - Username */}
-        <div className="font-serif text-black text-base sm:text-lg md:text-xl font-bold truncate">
+        <div className="font-serif text-black text-sm sm:text-base md:text-lg font-bold truncate">
           {user?.name}
         </div>
 
         {/* Right side - Links */}
-        <nav className="flex space-x-3 sm:space-x-4 md:space-x-6 items-center">
+        <nav className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 md:space-x-6 items-center">
           <Link
             to="/"
             className={`font-serif text-black text-sm sm:text-base transform hover:scale-110 transition duration-200 ease-in-out ${
@@ -28,7 +28,6 @@ const Header = () => {
           >
             All Packages
           </Link>
-
           {/* Conditional rendering based on user role */}
           {user?.role === 'Admin' && (
             <>
@@ -58,7 +57,6 @@ const Header = () => {
               </Link>
             </>
           )}
-
           {user?.role === 'Data Entry' && (
             <Link
               to="/create-package"
@@ -69,22 +67,16 @@ const Header = () => {
               Create Package
             </Link>
           )}
-
-          {/* Conditional rendering based on user role */}
           {user?.role === 'User' && (
-            <>
-              <Link
-                to="/my_bookings"
-                className={`font-serif text-black text-sm sm:text-base transform hover:scale-110 transition duration-200 ease-in-out ${
-                  location.pathname === "/my_bookings" ? "border-b-2 border-white" : ""
-                }`}
-              >
-                My Bookings
-              </Link>
-            </>
+            <Link
+              to="/my_bookings"
+              className={`font-serif text-black text-sm sm:text-base transform hover:scale-110 transition duration-200 ease-in-out ${
+                location.pathname === "/my_bookings" ? "border-b-2 border-white" : ""
+              }`}
+            >
+              My Bookings
+            </Link>
           )}
-
-          {/* Wrap motion.button in a fixed-size div */}
           <div className="w-24 sm:w-28 md:w-32">
             <motion.button
               whileHover={{ scale: 1.05 }}

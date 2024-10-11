@@ -5,8 +5,7 @@ import { motion } from "framer-motion";
 const AssignRoles = () => {
   const [users, setUsers] = useState([]); // All users (Admins and Data Entry)
   const [justUsers, setJustUsers] = useState([]); // Users with role 'User'
-  const [errorMessage, setErrorMessage] = useState(''); // Error messages
-
+  
   // Fetch users from the DB on component mount
   useEffect(() => {
     fetchUsers();
@@ -50,7 +49,7 @@ const AssignRoles = () => {
       className="p-6"
     >
       {/* Admin Section */}
-      <h2 className="text-3xl font-extrabold mb-6 mt-20 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-black-400 to-yellow-400 drop-shadow-lg">Admins</h2>
+      <h2 className="text-3xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-black-400 to-yellow-400 drop-shadow-lg">Admins</h2>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"> {/* Adjust columns */}
         {users.filter(user => user.role === 'Admin').map(user => (
           <div
