@@ -82,4 +82,13 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/:id', async (req, res) => {
+  try {
+    const packageDetails = await Package.findById(req.params.id);
+    res.status(200).json(packageDetails);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching package details' });
+  }
+});
+
 export default router;

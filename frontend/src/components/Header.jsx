@@ -14,7 +14,7 @@ const Header = () => {
     <header className="fixed top-0 left-0 w-full bg-white p-2 sm:p-4 md:p-5 shadow-sm z-10">
       <div className="flex flex-col sm:flex-row justify-between items-center max-w-screen-xl mx-auto w-full px-4 sm:px-6">
         {/* Left side - Username */}
-        <div className="font-serif text-black text-sm sm:text-base md:text-lg font-bold truncate">
+        <div className="font-trebuchet font-serif text-black text-sm sm:text-base md:text-lg font-bold truncate">
           {user?.name}
         </div>
 
@@ -82,8 +82,8 @@ const Header = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleLogout}
-              className='font-serif text-black w-full py-2 px-2 sm:px-3 bg-gradient-to-r from-gray-400 to-gray-400 text-white 
-                font-bold rounded-md sm:rounded-lg shadow-lg hover:from-gray-300 hover:to-gray-300
+              className='font-serif text-black w-full py-2 px-2 sm:px-3 bg-gradient-to-r bg-indianred text-white 
+                font-bold rounded-md sm:rounded-lg shadow-lg hover:from-indianred-100 hover:to-indianred-100
                 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 text-sm sm:text-base'
             >
               Logout

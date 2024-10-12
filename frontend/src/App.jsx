@@ -1,5 +1,4 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-// import FloatingShape from "./components/FloatingShape";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import EmailVerificationPage from "./pages/EmailVerificationPage";
@@ -15,6 +14,7 @@ import AssignRoles from "./pages/AssignRoles";
 import AdminOrders from "./pages/AdminOrders";
 import MyBookings from "./pages/MyBookings";
 import PackageCard from "./components/PackageCard";
+import AboutCard from './pages/AboutCard';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { isAuthenticated, user } = useAuthStore();
@@ -68,6 +68,14 @@ function App() {
           element={
             <ProtectedRoute>
               <PackageCard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/about-package/:id'
+          element={
+            <ProtectedRoute>
+              <AboutCard />
             </ProtectedRoute>
           }
         />

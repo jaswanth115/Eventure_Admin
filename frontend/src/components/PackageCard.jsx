@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const PackageCard = () => {
   const [packages, setPackages] = useState([]); // State to store package data
+  const navigate = useNavigate();
 
   // Fetch packages from the DB on component mount
   useEffect(() => {
@@ -18,28 +20,33 @@ const PackageCard = () => {
     }
   };
 
+  const handleCardClick = (id) => {
+    navigate(`/about-package/${id}`);
+  };
+
   return (
     <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 m-10">
   {packages.map((pkg) => (
     <div
       key={pkg._id}
       className="transform hover:scale-110 transition duration-200 bg-cloud p-4 sm:p-6 shadow-md w-full h-auto relative" // Adjusted padding for smaller screens
+      onClick={() => handleCardClick(pkg._id)}
     >
       {/* City on the top right */}
-      <div className="text-sm sm:text-base text-gray-600 font-semibold absolute top-2 right-2 truncate">
+      <div className="font-bodoni text-sm sm:text-base text-gray-600 font-semibold absolute top-2 right-2 truncate">
         {pkg.venueDetails.city}
       </div>
 
       {/* Management Name in the center */}
       <div className="flex items-center justify-center h-24">
-        <h2 className="font-yuGothic text-2xl font-bold text-coffee text-center truncate">
+        <h2 className="font-broadway text-2xl font-bold text-coffee text-center truncate">
           {pkg.management_name}
         </h2>
       </div>
 
       {/* Bottom Section */}
       <div className="flex justify-between items-center mt-4 sm:mt-6 space-x-2 sm:space-x-4">
-        <div className="text-gray-700 font-medium text-sm sm:text-lg truncate">
+        <div className="font-lucida text-gray-700 font-medium text-sm sm:text-lg truncate">
           ${pkg.price}
         </div>
         <div className="text-gray-500 font-light text-xs sm:text-sm truncate">
