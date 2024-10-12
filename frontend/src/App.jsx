@@ -61,7 +61,7 @@ function App() {
     >
 
       {isAuthenticated && user?.isVerified && <Header />}
-      <main className="flex-grow pt-20 md:pt-24 lg:pt-28">
+      <main className="flex-grow pt-20 md:pt-24 lg:pt-28 flex items-center justify-center">
       <Routes>
         <Route
           path='/'

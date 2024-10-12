@@ -32,7 +32,7 @@ const PackageCard = () => {
 
       {/* Management Name in the center */}
       <div className="flex items-center justify-center h-24">
-        <h2 className="font-yuGothic text-lg sm:text-xl font-bold text-coffee text-center truncate">
+        <h2 className="font-yuGothic text-2xl font-bold text-coffee text-center truncate">
           {pkg.management_name}
         </h2>
       </div>

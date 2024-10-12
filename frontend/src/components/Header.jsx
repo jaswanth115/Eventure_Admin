@@ -23,7 +23,7 @@ const Header = () => {
           <Link
             to="/"
             className={`font-serif text-black text-sm sm:text-base transform hover:scale-110 transition duration-200 ease-in-out ${
-              location.pathname === "/" ? "border-b-2 border-white" : ""
+              location.pathname === "/" ? "border-b-2 border-gray-800" : ""
             }`}
           >
             All Packages
@@ -34,7 +34,7 @@ const Header = () => {
               <Link
                 to="/create-package"
                 className={`font-serif text-black text-sm sm:text-base transform hover:scale-110 transition duration-200 ease-in-out ${
-                  location.pathname === "/create-package" ? "border-b-2 border-white" : ""
+                  location.pathname === "/create-package" ? "border-b-2 border-gray-800" : ""
                 }`}
               >
                 Create Package
@@ -42,7 +42,7 @@ const Header = () => {
               <Link
                 to="/assign-roles"
                 className={`font-serif text-black text-sm sm:text-base transform hover:scale-110 transition duration-200 ease-in-out ${
-                  location.pathname === "/assign-roles" ? "border-b-2 border-white" : ""
+                  location.pathname === "/assign-roles" ? "border-b-2 border-gray-800" : ""
                 }`}
               >
                 Assign Roles
@@ -50,7 +50,7 @@ const Header = () => {
               <Link
                 to="/orders"
                 className={`font-serif text-black text-sm sm:text-base transform hover:scale-110 transition duration-200 ease-in-out ${
-                  location.pathname === "/orders" ? "border-b-2 border-white" : ""
+                  location.pathname === "/orders" ? "border-b-2 border-gray-800" : ""
                 }`}
               >
                 Orders
@@ -61,7 +61,7 @@ const Header = () => {
             <Link
               to="/create-package"
               className={`font-serif text-black text-sm sm:text-base transform hover:scale-110 transition duration-200 ease-in-out ${
-                location.pathname === "/create-package" ? "border-b-2 border-white" : ""
+                location.pathname === "/create-package" ? "border-b-2 border-gray-800" : ""
               }`}
             >
               Create Package
@@ -71,7 +71,7 @@ const Header = () => {
             <Link
               to="/my_bookings"
               className={`font-serif text-black text-sm sm:text-base transform hover:scale-110 transition duration-200 ease-in-out ${
-                location.pathname === "/my_bookings" ? "border-b-2 border-white" : ""
+                location.pathname === "/my_bookings" ? "border-b-2 border-gray-800" : ""
               }`}
             >
               My Bookings
