@@ -25,6 +25,7 @@ app.use("/api/auth", authRoutes);
 // Use the package routes
 app.use('/api/packages', packageRoutes);
 app.use('/api/users', userRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static(path.join(__dirname, "/frontend/dist")));
