@@ -99,7 +99,7 @@ const AboutCard = () => {
               <img
                 src={`${imageBaseURL}${packageDetails.images[currentImageIndex]}`}
                 alt="Package"
-                className="w-full max-w-full max-h-96 object-contain rounded-md"
+                className="w-full max-w-full max-h-[400px] md:max-h-[450px] object-contain rounded-md mx-auto"
               />
             )}
             {packageDetails.images?.length > 1 && (
