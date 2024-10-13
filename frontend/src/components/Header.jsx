@@ -11,7 +11,7 @@ const Header = () => {
   const location = useLocation(); // Get the current route
 
   return (
-    <header className="fixed top-0 left-0 w-full bg-white p-2 sm:p-4 md:p-5 shadow-sm z-10">
+    <header className="fixed top-0 left-0 w-full bg-white p-2 sm:p-4 md:p-5 z-10">
       <div className="flex flex-col sm:flex-row justify-between items-center max-w-screen-xl mx-auto w-full px-4 sm:px-6">
         {/* Left side - Username */}
         <div className="font-trebuchet font-serif text-black text-sm sm:text-base md:text-lg font-bold truncate">
