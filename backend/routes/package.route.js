@@ -14,7 +14,9 @@ router.post('/create-package', upload.array('images'), async (req, res) => {
       services,
       venueDetails,
       availability,
-      category
+      category,
+      phoneNumber,  // Add phone number
+      email         // Add email address
     } = req.body;
 
     const { decoration, catering, drinks, entertainment, photography } = services;
@@ -23,11 +25,16 @@ router.post('/create-package', upload.array('images'), async (req, res) => {
     if (!availability || !availability.from || !availability.to) {
       return res.status(400).json({ success: false, message: 'Availability "from" and "to" dates are required' });
     }
-  
+
     // Validate venue details
     const { venueName, streetAddress, city, state, postalCode, country, capacity } = venueDetails;
     if (!venueName || !streetAddress || !city || !state || !postalCode || !country || !capacity) {
       return res.status(400).json({ success: false, message: 'All venue details are required' });
+    }
+
+    // Validate phone number and email
+    if (!phoneNumber || !email) {
+      return res.status(400).json({ success: false, message: 'Phone number and email are required' });
     }
 
     // Collect image paths
@@ -37,6 +44,8 @@ router.post('/create-package', upload.array('images'), async (req, res) => {
     const newPackage = new Package({
       management_name,
       price,
+      phoneNumber,  // Save phone number
+      email,        // Save email
       services: {
         decoration,
         catering,
@@ -59,6 +68,8 @@ router.post('/create-package', upload.array('images'), async (req, res) => {
       },
       category,
       images, // Add images to the package
+      phoneNumber,  // Save phone number
+      email         // Save email address
     });
 
     // Save to the database
@@ -82,6 +93,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET route to fetch a package by ID
 router.get('/:id', async (req, res) => {
   try {
     const packageDetails = await Package.findById(req.params.id);

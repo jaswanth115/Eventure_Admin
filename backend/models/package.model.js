@@ -84,6 +84,15 @@ const packageSchema = new mongoose.Schema(
     images: {
       type: [String], // Store multiple image paths
     },
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      match: [/.+\@.+\..+/, 'Please enter a valid email address'], // Simple email validation
+    },
   },
   { timestamps: true }
 );

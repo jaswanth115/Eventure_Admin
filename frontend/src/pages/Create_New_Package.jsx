@@ -9,6 +9,8 @@ const Create_New_Package = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [management_name, setManagementName] = useState('');
   const [price, setPrice] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');  // Add phoneNumber state
+  const [email, setEmail] = useState('');              // Add email state
   const [successMessage, setSuccessMessage] = useState(false);
   const [newCategory, setNewCategory] = useState('');
   const [images, setImages] = useState([]);
@@ -39,6 +41,8 @@ const Create_New_Package = () => {
   const resetForm = () => {
     setManagementName('');
     setPrice('');
+    setPhoneNumber('');  // Reset phone number
+    setEmail('');        // Reset email
     setFormData({
       decoration: '',
       catering: '',
@@ -89,6 +93,8 @@ const Create_New_Package = () => {
     const packageData = new FormData();
     packageData.append('management_name', management_name);
     packageData.append('price', price);
+    packageData.append('phoneNumber', phoneNumber);  // Append phone number
+    packageData.append('email', email);              // Append email
     packageData.append('category', newCategory);
 
     // Add services
@@ -169,6 +175,30 @@ const Create_New_Package = () => {
               value={management_name}
               onChange={(e) => setManagementName(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* Phone Number Field */}
+          <div className="mb-4">
+            <label className="block text-gray-700 font-bold mb-2">Phone Number</label>
+            <input
+              type="tel"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter Phone Number"
+            />
+          </div>
+
+          {/* Email Field */}
+          <div className="mb-4">
+            <label className="block text-gray-700 font-bold mb-2">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter Email Address"
             />
           </div>
 
