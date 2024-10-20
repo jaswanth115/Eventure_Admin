@@ -15,6 +15,7 @@ router.post('/create-package', upload.array('images'), async (req, res) => {
       venueDetails,
       availability,
       category,
+      commission,  // Commission
       phoneNumber,  // Add phone number
       email         // Add email address
     } = req.body;
@@ -33,8 +34,8 @@ router.post('/create-package', upload.array('images'), async (req, res) => {
     }
 
     // Validate phone number and email
-    if (!phoneNumber || !email) {
-      return res.status(400).json({ success: false, message: 'Phone number and email are required' });
+    if (!phoneNumber || !email || !commission) {
+      return res.status(400).json({ success: false, message: 'Phone number and email and commission are required' });
     }
 
     // Collect image paths
@@ -44,8 +45,7 @@ router.post('/create-package', upload.array('images'), async (req, res) => {
     const newPackage = new Package({
       management_name,
       price,
-      phoneNumber,  // Save phone number
-      email,        // Save email
+      commission,
       services: {
         decoration,
         catering,

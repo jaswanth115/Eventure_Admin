@@ -3,13 +3,15 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from "framer-motion";
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import { FaUtensils, FaGlassCheers, FaMusic, FaCamera, FaGifts } from 'react-icons/fa'; 
+import { FaUtensils, FaGlassCheers, FaMusic, FaCamera, FaGifts } from 'react-icons/fa';
+import Stripe from '../components/Stripe'; // Import Stripe component
 
 const AboutCard = () => {
   const { id } = useParams();
   const [packageDetails, setPackageDetails] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
+  const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 })
+  const [showStripe, setShowStripe] = useState(false); // State for Stripe component visibility
 
   const imageBaseURL = 'http://localhost:5000/';
 
@@ -63,6 +65,10 @@ const AboutCard = () => {
     entertainment: <FaMusic />,
     photography: <FaCamera />,
     decoration: <FaGifts />,
+  };
+
+  const handleBookNow = () => {
+    setShowStripe(true); // Show the Stripe component when button is clicked
   };
 
   if (!packageDetails) {
@@ -153,10 +159,19 @@ const AboutCard = () => {
           {/* Fourth Div - Price and Book Now Button */}
           <div className="flex items-center justify-center bg-gray-100 p-4 rounded-md m-4">
             <div className="text-2xl font-bold">${packageDetails.price}</div>
-            <button className="font-lucida_sans text-xl bg-green-500 text-white py-2 px-4 rounded-md shadow-lg ml-4">
+            <button className="font-lucida_sans text-xl bg-green-500 text-white py-2 px-4 rounded-md shadow-lg ml-4"
+            onClick={handleBookNow} // Show Stripe component when clicked
+            >
               Book Now
             </button>
           </div>
+
+          {/* Conditionally Render Stripe Component */}
+          {showStripe && (
+            <div className="mt-4">
+              <Stripe />
+            </div>
+          )}
         </div>
       </div>
     </motion.div>

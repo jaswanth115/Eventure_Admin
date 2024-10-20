@@ -5,9 +5,10 @@ import { FaUtensils, FaGlassCheers, FaMusic, FaCamera, FaGifts, FaCheckCircle } 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const Create_New_Package = () => {
+  const Create_New_Package = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [management_name, setManagementName] = useState('');
+  const [commission, setCommission] = useState('');
   const [price, setPrice] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');  // Add phoneNumber state
   const [email, setEmail] = useState('');              // Add email state
@@ -95,6 +96,7 @@ const Create_New_Package = () => {
     packageData.append('price', price);
     packageData.append('phoneNumber', phoneNumber);  // Append phone number
     packageData.append('email', email);              // Append email
+    packageData.append('commission', commission);  // Append commission
     packageData.append('category', newCategory);
 
     // Add services
@@ -178,6 +180,18 @@ const Create_New_Package = () => {
             />
           </div>
 
+          {/* Commission Field */}
+          <div className="mb-4">
+            <label className="block text-gray-700 font-bold mb-2">Commission (%)</label>
+            <input
+              type="number"
+              value={commission}
+              onChange={(e) => setCommission(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter Commission Percentage"
+            />
+          </div>
+          
           {/* Phone Number Field */}
           <div className="mb-4">
             <label className="block text-gray-700 font-bold mb-2">Phone Number</label>
