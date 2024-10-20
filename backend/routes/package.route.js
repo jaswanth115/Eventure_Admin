@@ -103,4 +103,19 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// DELETE route to delete a package by ID
+router.delete('/:id', async (req, res) => {
+  try {
+    const deletedPackage = await Package.findByIdAndDelete(req.params.id);
+    if (!deletedPackage) {
+      return res.status(404).json({ success: false, message: 'Package not found' });
+    }
+    res.status(200).json({ success: true, message: 'Package deleted successfully!' });
+  } catch (error) {
+    console.error('Error deleting package:', error);
+    res.status(500).json({ success: false, message: 'Error deleting package' });
+  }
+});
+
+
 export default router;

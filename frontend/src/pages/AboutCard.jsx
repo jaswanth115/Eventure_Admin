@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
 import { motion } from "framer-motion";
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight, FaTrash } from 'react-icons/fa'; // Import Trash icon
 import { FaUtensils, FaGlassCheers, FaMusic, FaCamera, FaGifts } from 'react-icons/fa';
 import Stripe from '../components/Stripe'; // Import Stripe component
+import { useAuthStore } from "../store/authStore";
 
 const AboutCard = () => {
+  const { user } = useAuthStore();
   const { id } = useParams();
+  const navigate = useNavigate(); // Initialize useNavigate
   const [packageDetails, setPackageDetails] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 })
-  const [showStripe, setShowStripe] = useState(false); // State for Stripe component visibility
-
+  const [showStripe, setShowStripe] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false); // State for delete confirmation
   const imageBaseURL = 'http://localhost:5000/';
 
   useEffect(() => {
@@ -68,7 +71,16 @@ const AboutCard = () => {
   };
 
   const handleBookNow = () => {
-    setShowStripe(true); // Show the Stripe component when button is clicked
+    setShowStripe(true);
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:5000/api/packages/${id}`);
+      navigate('/packages'); // Redirect to packages page after deletion
+    } catch (error) {
+      console.error('Error deleting package:', error);
+    }
   };
 
   if (!packageDetails) {
@@ -160,11 +172,24 @@ const AboutCard = () => {
           <div className="flex items-center justify-center bg-gray-100 p-4 rounded-md m-4">
             <div className="text-2xl font-bold">${packageDetails.price}</div>
             <button className="font-lucida_sans text-xl bg-green-500 text-white py-2 px-4 rounded-md shadow-lg ml-4"
-            onClick={handleBookNow} // Show Stripe component when clicked
+            onClick={handleBookNow}
             >
               Book Now
             </button>
           </div>
+
+          {/* Delete Option for Admin and Data Entry Roles */}
+          {user?.role === 'Admin' || user?.role === 'Data Entry' ? ( // Adjust based on how you define roles
+            <div className="flex justify-center mb-4">
+              <button 
+                onClick={() => setShowDeleteConfirmation(true)}
+                className="flex items-center text-red-600 hover:text-red-800"
+              >
+                <FaTrash className="mr-2" />
+                Delete Package
+              </button>
+            </div>
+          ) : null}
 
           {/* Conditionally Render Stripe Component */}
           {showStripe && (
@@ -174,6 +199,29 @@ const AboutCard = () => {
           )}
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirmation && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-md shadow-md">
+            <h2 className="text-xl font-semibold">Are you sure you want to delete this package?</h2>
+            <div className="mt-4 flex justify-between">
+              <button 
+                onClick={handleDelete} 
+                className="bg-red-500 text-white px-4 py-2 rounded-md"
+              >
+                Yes
+              </button>
+              <button 
+                onClick={() => setShowDeleteConfirmation(false)} 
+                className="bg-gray-300 px-4 py-2 rounded-md"
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 };
