@@ -165,7 +165,7 @@ const Filter = ({ setFilteredPackages, packages }) => {
     >
       <div className="relative">
         <button
-          className="relative bg-blue-600 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-700 transition duration-300"
+          className="font-serif relative bg-jam text-white px-4 py-2 rounded-full shadow-md transform hover:scale-110 transition duration-300"
           onClick={() => setShowFilters(!showFilters)}
         >
           Filters
@@ -195,18 +195,18 @@ const Filter = ({ setFilteredPackages, packages }) => {
                   Sort By Price
                 </h4>
                 <div className="flex gap-4">
-                  <label className="flex items-center">
+                  <label className="font-serif flex items-center">
                     <input
                       type="radio"
                       name="sort"
                       value="low-to-high"
                       checked={sortOption === "low-to-high"}
                       onChange={(e) => setSortOption(e.target.value)}
-                      className="mr-2"
+                      className="font-serif mr-2"
                     />{" "}
                     Low to High
                   </label>
-                  <label className="flex items-center">
+                  <label className="font-serif flex items-center">
                     <input
                       type="radio"
                       name="sort"
@@ -261,7 +261,7 @@ const Filter = ({ setFilteredPackages, packages }) => {
                   Categories
                 </h4>
                 {categories.map((category) => (
-                  <label key={category} className="block mb-2">
+                  <label key={category} className="font-serif block mb-2">
                     <input
                       type="checkbox"
                       value={category}
@@ -286,7 +286,7 @@ const Filter = ({ setFilteredPackages, packages }) => {
                   Country
                 </h4>
                 {countries.map((country) => (
-                  <label key={country} className="block mb-2">
+                  <label key={country} className="font-serif block mb-2">
                     <input
                       type="checkbox"
                       value={country}
@@ -310,7 +310,7 @@ const Filter = ({ setFilteredPackages, packages }) => {
                       States
                     </h4>
                     {selectedCountries.map((country) => (
-                      <div key={country} className="block mb-2">
+                      <div key={country} className="font-serif block mb-2">
                         <h5>{country}</h5>
                         {Array.from(states[country] || []).map((state) => (
                           <label key={state}>
@@ -341,7 +341,7 @@ const Filter = ({ setFilteredPackages, packages }) => {
                       Cities
                     </h4>
                     {selectedStates.map((state) => (
-                      <div key={state} className="block mb-2">
+                      <div key={state} className="font-serif block mb-2">
                         <h5>{state}</h5>
                         {Array.from(cities[state] || []).map((city) => (
                           <label key={city}>

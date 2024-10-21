@@ -57,29 +57,24 @@ function App() {
   if (isCheckingAuth) return <LoadingSpinner />;
 
   return (
-    <div
-      className="min-h-screen bg-gradient-to-br
-      from-white-700 via-yellow-200 to-white flex items-center justify-center relative overflow-hidden"
-    >
+    <div className="min-h-screen bg-gradient-to-br from-white-700 via-yellow-200 to-white flex items-center justify-center relative overflow-hidden">
       {isAuthenticated && user?.isVerified && <Header />}
-      <main className="flex-grow pt-20 md:pt-24 lg:pt-28 flex items-center justify-center">
+      <main className="flex-grow pt-20 md:pt-24 lg:pt-28 flex flex-col items-center">
         <Routes>
           <Route
             path="/"
             element={
               <ProtectedRoute>
                 <div className="relative min-h-screen flex flex-col items-center">
-                  {" "}
-                  {/* Ensure the wrapper is relative */}
-                  <div className="fixed top-4 right-4 bg-white z-10 p-4 shadow-lg">
-                    {" "}
-                    {/* Fixed positioning for the Filter */}
-                    <Filter
+                  <div className="fixed top-16 right-4 z-10 p-4"> {/* Adjusted top position */}
+                    <Filter 
                       setFilteredPackages={setFilteredPackages}
-                      packages={packages}
+                      packages={packages} 
                     />
                   </div>
-                  <PackageCard />
+                  <div className="flex-grow pt-20"> {/* Ensure PackageCard can scroll */}
+                    <PackageCard />
+                  </div>
                 </div>
               </ProtectedRoute>
             }
