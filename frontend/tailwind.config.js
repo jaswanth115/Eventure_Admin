@@ -8,7 +8,8 @@ export default {
 				'coffee': '#6F4C3E',
 				'indianred': '#CD5C5C',
 				'lightcoral': '#F08080',
-				'jam': '#6F2C91'
+				'jam': '#6F2C91',
+				'orchid': '#DA70D6',
 			},
 			fontFamily: {
 				bodoni: ['"Bodoni MT Condensed"', 'serif'],

@@ -170,7 +170,7 @@ const Filter = ({ setFilteredPackages, packages }) => {
         >
           Filters
           {getActiveFilterCount() > 0 && (
-            <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">
+            <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">
               {getActiveFilterCount()}
             </span>
           )}
@@ -179,7 +179,7 @@ const Filter = ({ setFilteredPackages, packages }) => {
           <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50 transition duration-300">
             {" "}
             {/* Full screen overlay */}
-            <div className="bg-white shadow-xl p-8 rounded-xl w-full max-w-lg relative transform scale-95 transition-all duration-300">
+            <div className="max-h-screen overflow-y-auto bg-white shadow-xl p-8 rounded-xl w-full max-w-lg relative transform scale-95 transition-all duration-300">
               {" "}
               {/* Centered card */}
               <button
@@ -298,7 +298,7 @@ const Filter = ({ setFilteredPackages, packages }) => {
                             : [...selectedCountries, country]
                         )
                       }
-                      className="mr-2"
+                      className="mr-1"
                     />
                     {country}
                   </label>
@@ -313,7 +313,7 @@ const Filter = ({ setFilteredPackages, packages }) => {
                       <div key={country} className="font-serif block mb-2">
                         <h5>{country}</h5>
                         {Array.from(states[country] || []).map((state) => (
-                          <label key={state}>
+                          <label key={state} className="mr-2">
                             <input
                               type="checkbox"
                               value={state}
@@ -325,7 +325,7 @@ const Filter = ({ setFilteredPackages, packages }) => {
                                     : [...selectedStates, state]
                                 )
                               }
-                              className="mr-2"
+                              className="mr-1"
                             />
                             {state}
                           </label>
@@ -344,7 +344,7 @@ const Filter = ({ setFilteredPackages, packages }) => {
                       <div key={state} className="font-serif block mb-2">
                         <h5>{state}</h5>
                         {Array.from(cities[state] || []).map((city) => (
-                          <label key={city}>
+                          <label key={city} className="mr-2">
                             <input
                               type="checkbox"
                               value={city}
@@ -357,7 +357,7 @@ const Filter = ({ setFilteredPackages, packages }) => {
                                     : [...selectedCities, value]
                                 );
                               }}
-                              className="mr-2"
+                              className="mr-1"
                             />
                             {city}
                           </label>
@@ -371,7 +371,7 @@ const Filter = ({ setFilteredPackages, packages }) => {
               <div className="flex justify-between mt-8">
                 {areFiltersApplied() && (
                   <button
-                    className="bg-red-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-red-600 transition duration-300"
+                    className="bg-orange-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-red-600 transition duration-300"
                     onClick={clearFilters}
                   >
                     Clear Filters
@@ -379,7 +379,7 @@ const Filter = ({ setFilteredPackages, packages }) => {
                 )}
                 {areFiltersApplied() && ( // Only show Apply Filters button when at least one filter is selected
                   <button
-                    className="bg-green-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-green-600 transition duration-300"
+                    className="bg-jam text-white px-4 py-2 rounded-full shadow-md transition duration-300"
                     onClick={applyFilters}
                   >
                     Apply Filters
