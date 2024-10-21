@@ -171,11 +171,13 @@ const AboutCard = () => {
           {/* Fourth Div - Price and Book Now Button */}
           <div className="flex items-center justify-center bg-gray-100 p-4 rounded-md m-4">
             <div className="text-2xl font-bold">${packageDetails.price}</div>
+            {user?.role === 'Admin' || user?.role === 'User' ? ( // Adjust based on how you define roles
             <button className="font-lucida_sans text-xl bg-green-500 text-white py-2 px-4 rounded-md shadow-lg ml-4"
             onClick={handleBookNow}
             >
               Book Now
             </button>
+            ) : null}
           </div>
 
           {/* Delete Option for Admin and Data Entry Roles */}
