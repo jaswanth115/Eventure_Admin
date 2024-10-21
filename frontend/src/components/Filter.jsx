@@ -130,13 +130,42 @@ const Filter = ({ setFilteredPackages, packages }) => {
     setSelectedCities([]);
   };
 
+  const getActiveFilterCount = () => {
+    let count = 0;
+    if (sortOption) count += 1;
+    if (fromMonth) count += 1;
+    if (toMonth) count += 1;
+    count += selectedCategories.length;
+    count += selectedCountries.length;
+    count += selectedStates.length;
+    count += selectedCities.length;
+    return count;
+  };
+
+  const areFiltersApplied = () => {
+    return (
+      sortOption ||
+      fromMonth ||
+      toMonth ||
+      selectedCategories.length > 0 ||
+      selectedCountries.length > 0 ||
+      selectedStates.length > 0 ||
+      selectedCities.length > 0
+    );
+  };
+
   return (
     <div className="relative">
       <button
-        className="bg-blue-600 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-700 transition duration-300"
+        className="relative bg-blue-600 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-700 transition duration-300"
         onClick={() => setShowFilters(!showFilters)}
       >
         Filters
+        {getActiveFilterCount() > 0 && (
+          <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">
+            {getActiveFilterCount()}
+          </span>
+        )}
       </button>
       {showFilters && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50 transition duration-300">
@@ -332,12 +361,14 @@ const Filter = ({ setFilteredPackages, packages }) => {
             </div>
             {/* Apply and Clear buttons */}
             <div className="flex justify-between mt-8">
-              <button
-                className="bg-red-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-red-600 transition duration-300"
-                onClick={clearFilters}
-              >
-                Clear Filters
-              </button>
+              {areFiltersApplied() && (
+                <button
+                  className="bg-red-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-red-600 transition duration-300"
+                  onClick={clearFilters}
+                >
+                  Clear Filters
+                </button>
+              )}
               <button
                 className="bg-green-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-green-600 transition duration-300"
                 onClick={applyFilters}
