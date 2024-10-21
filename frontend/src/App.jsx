@@ -7,7 +7,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import LoadingSpinner from "./components/LoadingSpinner";
 import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./store/authStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react"; // Correct imports for hooks
 import Create_New_Package from "./pages/Create_New_Package";
 import Header from './components/Header';
 import AssignRoles from "./pages/AssignRoles";
@@ -15,6 +15,7 @@ import AdminOrders from "./pages/AdminOrders";
 import MyBookings from "./pages/MyBookings";
 import PackageCard from "./components/PackageCard";
 import AboutCard from './pages/AboutCard';
+import Filter from "./components/Filter";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { isAuthenticated, user } = useAuthStore();
@@ -31,7 +32,6 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
     return <Navigate to='/' replace />; // Redirect to home if user role is not allowed
   }
 
-
   return children;
 };
 
@@ -46,6 +46,8 @@ const RedirectAuthenticatedUser = ({ children }) => {
 };
 
 function App() {
+  const [packages, setPackages] = useState([]);  // Initial state for packages
+  const [filteredPackages, setFilteredPackages] = useState([]); // State for filtered packages
   const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuthStore();
 
   useEffect(() => {
@@ -67,7 +69,15 @@ function App() {
           path='/'
           element={
             <ProtectedRoute>
-              <PackageCard />
+              <div className="relative min-h-screen flex flex-col items-center"> {/* Ensure the wrapper is relative */}
+        <div className="absolute top-4 right-4 bg-white z-10 p-4 shadow-lg"> {/* Absolute positioning for the Filter */}
+          <Filter 
+            setFilteredPackages={setFilteredPackages}
+            packages={packages} 
+          />
+        </div>
+        <PackageCard />
+      </div>
             </ProtectedRoute>
           }
         />
