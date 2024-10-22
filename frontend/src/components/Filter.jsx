@@ -231,42 +231,6 @@ const Filter = ({ setFilteredPackages, packages }) => {
                   </label>
                 </div>
               </div>
-              {/* Availability filters */}
-              <div className="mb-6">
-                <h4 className="text-lg font-semibold mb-2 text-gray-800">
-                  Availability
-                </h4>
-                <div className="flex gap-4">
-                  <select
-                    value={fromMonth}
-                    onChange={(e) => setFromMonth(e.target.value)}
-                    className="p-2 rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-300"
-                  >
-                    <option value="">From</option>
-                    {Array.from({ length: 12 }, (_, i) => (
-                      <option key={i} value={i}>
-                        {new Date(0, i).toLocaleString("default", {
-                          month: "long",
-                        })}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    value={toMonth}
-                    onChange={(e) => setToMonth(e.target.value)}
-                    className="p-2 rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-300"
-                  >
-                    <option value="">To</option>
-                    {Array.from({ length: 12 }, (_, i) => (
-                      <option key={i} value={i}>
-                        {new Date(0, i).toLocaleString("default", {
-                          month: "long",
-                        })}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
               {/* Category filters */}
               <div className="mb-6">
                 <h4 className="text-lg font-semibold mb-2 text-gray-800">
@@ -319,7 +283,7 @@ const Filter = ({ setFilteredPackages, packages }) => {
                 {selectedCountries.length > 0 && (
                   <div className="mb-6">
                     <h4 className="text-lg font-semibold mb-2 text-gray-800">
-                      States
+                      State
                     </h4>
                     {selectedCountries.map((country) => (
                       <div key={country} className="font-serif block mb-2">
@@ -350,7 +314,7 @@ const Filter = ({ setFilteredPackages, packages }) => {
                 {selectedStates.length > 0 && (
                   <div className="mb-6">
                     <h4 className="text-lg font-semibold mb-2 text-gray-800">
-                      Cities
+                      City
                     </h4>
                     {selectedStates.map((state) => (
                       <div key={state} className="font-serif block mb-2">
