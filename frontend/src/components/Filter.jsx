@@ -22,6 +22,18 @@ const Filter = ({ setFilteredPackages, packages }) => {
     fetchPackageData();
   }, []);
 
+  // Toggle body scroll when filter is active
+  useEffect(() => {
+    if (showFilters) {
+      document.body.style.overflow = 'hidden'; // Disable scrolling
+    } else {
+      document.body.style.overflow = 'auto'; // Re-enable scrolling
+    }
+    return () => {
+      document.body.style.overflow = 'auto'; // Cleanup on unmount
+    };
+  }, [showFilters]);
+
   const fetchPackageData = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/packages");
