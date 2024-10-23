@@ -82,14 +82,6 @@ const Filter = ({ setFilteredPackages, packages }) => {
       );
     }
 
-    if (fromMonth && toMonth) {
-      filtered = filtered.filter((pkg) => {
-        const from = new Date(pkg.availability.from).getMonth();
-        const to = new Date(pkg.availability.to).getMonth();
-        return from >= fromMonth && to <= toMonth;
-      });
-    }
-
     if (selectedCategories.length > 0) {
       filtered = filtered.filter((pkg) =>
         selectedCategories.includes(pkg.category)
